@@ -87,16 +87,17 @@ def all_states(n):
 # In[2]:
 
 
-def plot_rho(rho, title, vmax=None):
-  
-# 최대 절대값 계산 (real과 imag 모두 포함)
-    vmax = max(
-      np.max(np.abs(Bell_matrix.real)),
-      np.max(np.abs(Bell_matrix.imag)),
-      np.max(np.abs(rho_reconstructed_cc.real)),
-      np.max(np.abs(rho_reconstructed_cc.imag))
+def plot_rho(rho, title, vmax=None, default_vmax=0.5):
+    # 자동 vmax 설정: rho의 값이 default_vmax보다 작으면 default_vmax 사용
+    auto_vmax = max(
+        np.max(np.abs(rho.real)),
+        np.max(np.abs(rho.imag))
     )
-    fig = plt.figure(figsize=(10,6))
+
+    if vmax is None:
+        vmax = default_vmax if auto_vmax < default_vmax else auto_vmax
+
+    fig = plt.figure(figsize=(10, 6))
     ax = fig.add_subplot(111, projection='3d')
 
     xpos, ypos = np.meshgrid(np.arange(rho.shape[0]), np.arange(rho.shape[1]), indexing="ij")
@@ -105,20 +106,16 @@ def plot_rho(rho, title, vmax=None):
     zpos = np.zeros_like(xpos)
     dz = rho.flatten()
 
-    # 부드러운 갈색과 노란색
-    colors = ['#A0522D' if val < 0 else '#FFD700' for val in dz]
+    colors = ['#A0522D' if val < 0 else '#FFD700' for val in dz.real]
 
-    ax.bar3d(xpos, ypos, zpos, 0.5, 0.5, dz, color=colors, shade=True)
+    ax.bar3d(xpos, ypos, zpos, 0.5, 0.5, dz.real, color=colors, shade=True)
 
-    if vmax is not None:
-        ax.set_zlim(-vmax, vmax)
-
+    ax.set_zlim(-vmax, vmax)
     ax.set_xlabel('Row Index')
     ax.set_ylabel('Column Index')
     ax.set_zlabel('Value')
     ax.set_title(title)
     plt.show()
-
 
 # In[3]:
 
