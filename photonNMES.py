@@ -20,7 +20,7 @@ def similarity_transformation(theta):
     return R_matrix
 
 
-# In[3]:
+# In[4]:
 
 
 def polarization_analysis(h, q):
@@ -35,10 +35,16 @@ def polarization_analysis(h, q):
     R = (Polarization_Analysis(np.pi/8, 0))
     """
     # Compute the transformed Jones matrices for HWP and QWP
-    U_HWP = Similarity_Transformation(h) @ HWP @ np.linalg.inv(Similarity_Transformation(h))
-    U_QWP = Similarity_Transformation(q) @ QWP @ np.linalg.inv(Similarity_Transformation(q))
+    U_HWP = similarity_transformation(h) @ HWP @ np.linalg.inv(similarity_transformation(h))
+    U_QWP = similarity_transformation(q) @ QWP @ np.linalg.inv(similarity_transformation(q))
 
     # inverse tracking of QWP - HWP - PBS
     projection_state = np.linalg.inv(U_QWP) @ np.linalg.inv(U_HWP) @ PBS_t_state
     return projection_state
+
+
+# In[ ]:
+
+
+
 
