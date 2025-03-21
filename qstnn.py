@@ -117,6 +117,7 @@ def plot_rho(rho, title, vmax=None, default_vmax=0.5):
     ax.set_title(title)
     plt.show()
 
+
 # In[3]:
 
 
