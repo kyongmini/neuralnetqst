@@ -145,7 +145,17 @@ def fidelity(rho, sigma):
     fid = np.real(np.trace(sqrt_inner)) ** 2
 
     # Ensure fidelity is within [0, 1]
-    return min(fid, 1.0)
+    return print(min(fid, 1.0))
+
+def purity(rho):
+    """
+    주어진 밀도 행렬(rho)에 대한 Purity 계산
+    :param rho: 밀도 행렬 (numpy.ndarray)
+    :return: Purity 값 (float)
+    """
+    # Purity 계산: Tr(ρ^2)
+    purity = np.trace(np.matmul(rho, rho)).real
+    return print(purity)
 
 
 # In[ ]:
